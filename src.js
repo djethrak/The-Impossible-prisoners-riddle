@@ -20,15 +20,20 @@ function generateRandomArray(array) {
 
 
 function createRandomHash(array) {
-    
+    // random hash table to make searching O(1)
     var randomArray = generateRandomArray(array)
     var newHash = {}
     for (let i = 0; i < array.length; i++) {
-       newHash[i+1] = randomArray[i]
+        if (randomArray[i] != undefined) {
+            
+        newHash[i+1] = randomArray[i]
+        }
     }
+    return newHash
 }
 
 function createArray(arrayLength) {
+    
     for (var array=[],i=1;i<arrayLength;++i) array[i]=i;
 
     return array
@@ -41,8 +46,10 @@ function prisonerFound(randomizedHash, prisonerNo) {
     var hashSize = 100
     var positionOfPointeer = prisonerNo
     var doNotKill = false
+    var arrayOfVal = []
 
     for (let i = 0; i <= noOfBoxToOpen; i++) {
+        arrayOfVal.push(randomizedHash[positionOfPointeer])
         if (randomizedHash[positionOfPointeer] == prisonerNo) {
             doNotKill = true
             i = noOfBoxToOpen+1
@@ -53,8 +60,9 @@ function prisonerFound(randomizedHash, prisonerNo) {
         else{
             positionOfPointeer++
         }
-    }
 
+    }
+    console.log(prisonerNo, arrayOfVal, doNotKill);
     return doNotKill
 
 }
@@ -62,10 +70,11 @@ function prisonerFound(randomizedHash, prisonerNo) {
 function loadResult(N) {
     var prisonerArray = createArray(N)
     var randomHash = createRandomHash(prisonerArray)
-
     for (let i = 0; i < prisonerArray.length; i++) {
         if (!prisonerFound(randomHash,prisonerArray[i])) {
-            console.log(prisonerArray[i]);
+            // kill all prisoners
+            console.log('kill all prisoners', );
+            i=prisonerArray.length;
         }
     }
 }
